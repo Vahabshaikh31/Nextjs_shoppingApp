@@ -1,6 +1,5 @@
 "use server";
-
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut } from "../auth";
 
 export async function fetchAllProducts() {
   try {
@@ -44,10 +43,9 @@ export async function fetchProductDetails(details) {
   }
 }
 
-export const SignInUser = async () => {
+export async function loginAction() {
   await signIn("github");
-};
-
-export const signOutUser = async () => {
+}
+export async function logoutAction() {
   await signOut();
-};
+}

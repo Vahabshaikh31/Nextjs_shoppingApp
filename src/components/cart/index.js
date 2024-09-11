@@ -6,17 +6,17 @@ import { removeFromCart } from "@/store/slice/cart-slice";
 
 export const Carts = () => {
   const [totalAmount, setTotalAmount] = useState(0);
-  const { cart } = useSelector((state) => state);
+  const cart = useSelector((state) => state.cart?.items);
   const dispatch = useDispatch();
 
   useEffect(() => {
     // Calculate total amount
-    if (cart?.cardItem?.length) {
-      setTotalAmount(cart.cardItem.reduce((acc, curr) => acc + curr?.price, 0));
+    if (cart.length) {
+      setTotalAmount(cart.reduce((acc, curr) => acc + curr?.price, 0));
     } else {
       setTotalAmount(0); // Reset if cart is empty
     }
-  }, [cart?.cardItem]);
+  }, [cart]);
 
   const handleDelete = (id) => {
     dispatch(removeFromCart(id));
@@ -26,7 +26,7 @@ export const Carts = () => {
     <div className="bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-extrabold text-gray-900">Cart</h2>
-        {!cart?.cardItem?.length ? (
+        {!cart.length ? (
           <h1 className="text-4xl font-bold flex items-center justify-center mt-10">
             Cart Is Empty.
           </h1>
@@ -57,7 +57,7 @@ export const Carts = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {cart?.cardItem.map((item) => (
+                  {cart?.map((item) => (
                     <tr key={item.id}>
                       <td className="py-5 px-4">
                         <div className="flex items-center gap-6">

@@ -2,10 +2,12 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../ui/button";
-import { addToCart, removeFromCart } from "@/store/slice/cart-slice";
+import { addToCart, removeFromCart } from "../../store/slice/cart-slice";
 
 export function AddToCartButton({ productItem }) {
-  const cartItems = useSelector((state) => state.cart.items); 
+  // Accessing 'items' from Redux state
+  const cartItems = useSelector((state) => state.cart.items) || [];
+
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {

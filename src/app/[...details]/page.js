@@ -1,8 +1,15 @@
-import { fetchProductDetails } from "@/action";
-import { AddToCardButton } from "../../components/add-to-cart-button";
+import { redirect } from "next/navigation";
+import { fetchProductDetails } from "../../action/index";
+import { AddToCartButton } from "../../components/add-to-cart-button/index";
+import { auth } from "@/auth";
 
-export default async function Details({ params }) {
+async function Details({ params }) {
   const { details } = params;
+  const getSession = await auth();
+
+  if (!getSession.user) {
+    redirect("/unauth-page");
+  }
   const res = await fetchProductDetails(details);
   const data = res?.data;
 
@@ -50,9 +57,11 @@ export default async function Details({ params }) {
           <p className="text-sm text-gray-500 mb-4">
             Minimum Order: {data.minimumOrderQuantity}
           </p>
-          <AddToCardButton productItem={data} />
         </div>
+        <AddToCartButton productItem={data} />
       </div>
     </div>
   );
 }
+
+export default Details;
